@@ -32,7 +32,8 @@ ncat -u localhost 8080
 
 However, Ncat was not installed on our computer, so the command did not work.
 
-<img width="686" height="75" alt="image" src="https://github.com/user-attachments/assets/4624da16-7bf0-4600-a78d-4d17202e86ac" />
+<img width="925" height="55" alt="image" src="https://github.com/user-attachments/assets/54acd326-cc1d-41dc-b2c3-6fc719aebaf6" />
+
 
 **[Screenshot — Ncat command not recognized]**
 
@@ -41,6 +42,8 @@ Instead, we used our own `UDPClient.java` from Step 3 to test the server.
 We started `UDPServer.java` on port 8080. Then we ran `UDPClient.java` with `localhost` and port `8080`.
 
 We typed some messages in the client, and the server received them successfully.
+
+<img width="480" height="171" alt="image" src="https://github.com/user-attachments/assets/5cdaa63d-ba24-44c4-9c5e-4d3bd5e2b2a3" />
 
 **[Screenshot — UDPServer receiving messages from UDPClient]**
 
