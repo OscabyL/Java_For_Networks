@@ -120,6 +120,7 @@ We also tried to ping the other computer, but the test failed.
 We think the ENSEA or eduroam network may have network isolation or firewall restrictions. This may stop direct communication between student computers.
 
 So we tried another solution. We connected both computers to the same smartphone hotspot and checked their new IP addresses.
+<img width="736" height="368" alt="image" src="https://github.com/user-attachments/assets/54b2f463-3b71-4167-8d97-0c897262f2cf" />
 
 <img width="1129" height="224" alt="image" src="https://github.com/user-attachments/assets/104150dd-c6af-4be3-bd60-bc48abd3b37d" />
 
