@@ -114,19 +114,30 @@ We also tried to ping the other computer, but the test failed.
 
 <img width="539" height="85" alt="image" src="https://github.com/user-attachments/assets/e44ebe6c-faa8-4fc4-a53d-d887aecf7304" />
 
+**[Screenshot 1 — Ping failed on the ENSEA network]**
 
-**[Screenshot 4 — Ping failed on the ENSEA network]**
-
-We think the ENSEA or eduroam network may have network isolation or firewall restrictions. This may stop direct communication between student computers.
+We think the ENSEA network may have network isolation or firewall restrictions. This may stop direct communication between student computers.
 
 So we tried another solution. We connected both computers to the same smartphone hotspot and checked their new IP addresses.
 
+Then we changed the IP address in the UDPClient configuration to `192.168.21.151` and used port `8080`.
+
+<img width="736" height="368" alt="image" src="https://github.com/user-attachments/assets/54b2f463-3b71-4167-8d97-0c897262f2cf" />
+
+**[Screenshot 2 — UDPClient configuration using the hotspot IP address]**
+
+This time, the communication worked. We sent several messages from the client, and the server received them successfully.
+
+The server displayed the client's IP address (`192.168.21.228`), port number, and messages.
+
 <img width="1129" height="224" alt="image" src="https://github.com/user-attachments/assets/104150dd-c6af-4be3-bd60-bc48abd3b37d" />
 
+**[Screenshot 3 — UDPServer receiving messages from another computer]**
 
-We also need to test two UDP clients sending messages to the same server at the same time.
+This shows that our UDP client and server can communicate between two different computers.
 
-The server can receive messages from different clients and show their IP addresses and port numbers.
+We also learned that network settings and firewalls can affect UDP communication.
+
 
 ### Part 1 — Conclusion
 
@@ -165,3 +176,5 @@ We tested what we did and we see that, when the size of the transmitted data is 
 ![Schéma UDP](..Images/Sending_Oversize_Paquet_Server_View.png)
 
 ### Step 7
+
+The change in the code is the following one, before 
