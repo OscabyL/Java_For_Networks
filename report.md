@@ -32,6 +32,8 @@ ncat -u localhost 8080
 
 However, Ncat was not installed on our computer, so the command did not work.
 
+<img width="686" height="75" alt="image" src="https://github.com/user-attachments/assets/4624da16-7bf0-4600-a78d-4d17202e86ac" />
+
 **[Screenshot — Ncat command not recognized]**
 
 Instead, we used our own `UDPClient.java` from Step 3 to test the server.
