@@ -40,6 +40,7 @@ The server received the message and displayed the client's IP address, port numb
 /0:0:0:0:0:0:0:1:52092 -> Hello from Ncat
 ```
 <img width="480" height="171" alt="image" src="https://github.com/user-attachments/assets/5cdaa63d-ba24-44c4-9c5e-4d3bd5e2b2a3" />
+
 **[Screenshot 2 — UDPServer receiving the message from Ncat]**
 
 The test was successful. We confirmed that our UDP server can receive messages from Ncat.
@@ -65,6 +66,7 @@ hello
 This is my UDP client
 how are you
 ```
+<img width="381" height="206" alt="image" src="https://github.com/user-attachments/assets/eca5e269-94ab-48b0-8436-4c0ed24c8b56" />
 
 The server received all these messages and displayed the client's IP address and port.
 
@@ -77,6 +79,9 @@ The server received all these messages and displayed the client's IP address and
 ```
 
 This shows that our UDP client and server can communicate on the same computer.
+
+<img width="478" height="221" alt="image" src="https://github.com/user-attachments/assets/7a44e832-1800-4693-9a37-3cc61179ff8a" />
+
 
 **[Screenshot 3 — UDPServer receiving messages from UDPClient]**
 
@@ -107,13 +112,17 @@ We tried to send UDP messages between the two computers, but the server did not 
 
 We also tried to ping the other computer, but the test failed.
 
+<img width="539" height="85" alt="image" src="https://github.com/user-attachments/assets/e44ebe6c-faa8-4fc4-a53d-d887aecf7304" />
+
+
 **[Screenshot 4 — Ping failed on the ENSEA network]**
 
 We think the ENSEA or eduroam network may have network isolation or firewall restrictions. This may stop direct communication between student computers.
 
 So we tried another solution. We connected both computers to the same smartphone hotspot and checked their new IP addresses.
 
-**[Screenshot 5 — Network test using the smartphone hotspot, if available]**
+<img width="1129" height="224" alt="image" src="https://github.com/user-attachments/assets/104150dd-c6af-4be3-bd60-bc48abd3b37d" />
+
 
 We also need to test two UDP clients sending messages to the same server at the same time.
 
