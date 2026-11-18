@@ -22,32 +22,31 @@ Figure 1 — UDPServer running in IntelliJ IDEA
 
 ### Step 2 — Test the UDP Server
 
-First, we tried to use Ncat to test our UDP server.
+We used Ncat to test our UDP server.
 
-We entered this command in the Windows terminal:
+First, we started `UDPServer.java` on port 8080. Then we opened the Windows terminal and entered:
 
-```bash
-ncat -u localhost 8080
+```cmd
+"C:\software\Nmap\ncat.exe" -u localhost 8080
 ```
+
+We typed `Hello from Ncat` and pressed Enter.
+<img width="925" height="55" alt="image" src="https://github.com/user-attachments/assets/54acd326-cc1d-41dc-b2c3-6fc719aebaf6" />
+**[Screenshot 1 — Sending a message using Ncat]**
+
+The server received the message and displayed the client's IP address, port number, and message.
+
+```text
+/0:0:0:0:0:0:0:1:52092 -> Hello from Ncat
+```
+<img width="480" height="171" alt="image" src="https://github.com/user-attachments/assets/5cdaa63d-ba24-44c4-9c5e-4d3bd5e2b2a3" />
+**[Screenshot 2 — UDPServer receiving the message from Ncat]**
+
+The test was successful. We confirmed that our UDP server can receive messages from Ncat.
 
 However, Ncat was not installed on our computer, so the command did not work.
 
 <img width="925" height="55" alt="image" src="https://github.com/user-attachments/assets/54acd326-cc1d-41dc-b2c3-6fc719aebaf6" />
-
-
-**[Screenshot — Ncat command not recognized]**
-
-Instead, we used our own `UDPClient.java` from Step 3 to test the server.
-
-We started `UDPServer.java` on port 8080. Then we ran `UDPClient.java` with `localhost` and port `8080`.
-
-We typed some messages in the client, and the server received them successfully.
-
-<img width="480" height="171" alt="image" src="https://github.com/user-attachments/assets/5cdaa63d-ba24-44c4-9c5e-4d3bd5e2b2a3" />
-
-**[Screenshot — UDPServer receiving messages from UDPClient]**
-
-This shows that our UDP server can receive messages and display the client's IP address, port number, and message.
 
 ### Step 3 — UDP Client
 
