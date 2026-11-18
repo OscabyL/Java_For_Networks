@@ -26,19 +26,21 @@ First, we tried to use Ncat to test our UDP server.
 
 We entered this command in the Windows terminal:
 
+```bash
 ncat -u localhost 8080
+```
 
 However, Ncat was not installed on our computer, so the command did not work.
 
-[Screenshot — Ncat command not recognized]
+**[Screenshot — Ncat command not recognized]**
 
-Instead, we used our own UDPClient.java from Step 3 to test the server.
+Instead, we used our own `UDPClient.java` from Step 3 to test the server.
 
-We started UDPServer.java on port 8080. Then we ran UDPClient.java with localhost and port 8080.
+We started `UDPServer.java` on port 8080. Then we ran `UDPClient.java` with `localhost` and port `8080`.
 
 We typed some messages in the client, and the server received them successfully.
 
-[Screenshot — UDPServer receiving messages from UDPClient]
+**[Screenshot — UDPServer receiving messages from UDPClient]**
 
 This shows that our UDP server can receive messages and display the client's IP address, port number, and message.
 
