@@ -87,7 +87,7 @@ This shows that our UDP client and server can communicate on the same computer.
 
 ### Step 4 — Test Between Two Computers
 
-In this step, we tested UDP communication between two computers, one using Windows and the other using Linux.
+In this step, we tried to communicate between two computers, one using Windows and the other using Linux.
 
 First, we used `ping` to test the network connection.
 
@@ -165,7 +165,16 @@ One important thing is that UDP does not establish a connection before sending d
 
 ## Part 2 — Creating a UDP Client-Server
 
-### step 5 
+### Step 5 
 
 We changed the size of the buffer of the receiver. We made it possible to take three sizes : 64, 2048 and 65507.
+The change in the code is the following one, before we just set up a buffer of size : 1024. Now, we get the data and then we calculate the length and we attribute of the 3 sizes. 
+
+### Step 6
+
+We tested what we did and we see that, when the size of the transmitted data is larger than the size of the buffer, our code save only the maximum size and discard the remaining part.
+![Schéma UDP](/Images/Sending_Oversize_Paquet_Server_View.png)
+
+### Step 7
+
 The change in the code is the following one, before 
