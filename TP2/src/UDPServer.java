@@ -42,9 +42,13 @@ public class UDPServer {
                 else if (size <= 2048) {
                     buffer = new byte[2048];
                 }
-                else {
+                else if(size <=65507){
                     buffer = new byte[65507];
                 }
+                else {
+                    throw new IllegalArgumentException("Message too large");
+                }
+
 
                 System.arraycopy(tempBuffer, 0, buffer, 0, size);
                 String msg = new String(buffer, 0, size, StandardCharsets.UTF_8);
