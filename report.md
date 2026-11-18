@@ -1,12 +1,12 @@
-# 实验报告：Java 网络编程
+# Lab Report: Java Network Programming
 
-## 一、 项目背景
-在这里写你的项目介绍、实验目的等文字解释……
+## I. Project Background
+Provide a description of your project, the objectives of the experiment, and other relevant background information here...
 
-## 二、 运行结果
-下面是客户端测试的运行截图：
+## II. Execution Results
+Below are the screenshots from the client-side test:
 
-![客户端测试结果](./Images/ClientSide_test.png)
+![Client-side test results](./Images/ClientSide_test.png)
 
-## 三、 总结
-在这里写你的心得体会或总结……
+## III. Conclusion
+Share your reflections, takeaways, or a summary of the project here...
