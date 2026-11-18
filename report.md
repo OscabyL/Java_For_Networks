@@ -137,3 +137,24 @@ We successfully sent and received UDP messages on the same computer.
 We also learned how to use IP addresses and port numbers to communicate between different computers.
 
 One important thing is that UDP does not establish a connection before sending data. Also, sending a message does not guarantee that the server will receive it.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Part 2 — Creating a UDP Client-Server
+
+### step 5 
+
+We changed the size of the buffer of the receiver. We made it possible to take three sizes : 64, 2048 and 65507.
+The change in the code is the following one, before 
