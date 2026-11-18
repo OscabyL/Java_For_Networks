@@ -16,11 +16,8 @@ When we run the server, it waits for messages from clients. When it receives a m
 
 **Result:**
 
-```text
-UDPServer: port=8080, running=true
-```
-
-**[Screenshot 1 — UDPServer running in IntelliJ IDEA]**
+<img width="400" height="140" alt="image" src="https://github.com/user-attachments/assets/048e9e52-798b-40ce-b012-57ac4cc947fe" />
+**[Figure 1 — UDPServer running in IntelliJ IDEA]**
 
 ### Step 2 — Test the UDP Server
 
