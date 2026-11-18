@@ -4,8 +4,9 @@ import java.nio.charset.StandardCharsets;
 
 public class UDPServer {
 
-    private int port; // 服务器端口
-    private boolean running = false; // 运行状态
+    private int port;
+    private boolean running = false;
+    private int buffersize;
 
     // Constructor with port
     public UDPServer(int port) {
@@ -24,19 +25,16 @@ public class UDPServer {
             System.out.println(this);
 
             while (true) {
-                byte[] buffer = new byte[1024]; // 接收缓冲区
+                byte[] buffer = new byte[1024];
+
                 DatagramPacket packet =
                         new DatagramPacket(buffer, buffer.length);
 
-                socket.receive(packet); // 接收消息
+                socket.receive(packet);
 
-                String msg = new String(
-                        packet.getData(), 0, packet.getLength(),
-                        StandardCharsets.UTF_8);
+                String msg = new String(packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
 
-                System.out.println(
-                        packet.getAddress() + ":" +
-                                packet.getPort() + " -> " + msg);
+                System.out.println(packet.getAddress() + ":" + packet.getPort() + " -> " + msg);
             }
 
         } catch (Exception e) {

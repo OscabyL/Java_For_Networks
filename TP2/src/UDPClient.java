@@ -7,10 +7,10 @@ public class UDPClient {
 
     public static void main(String[] args) throws Exception {
 
-        String host = args.length > 0 ? args[0] : "localhost"; // 服务器地址
-        int port = args.length > 1 ? Integer.parseInt(args[1]) : 8080; // 端口
+        String host = args.length > 0 ? args[0] : "localhost";
+        int port = args.length > 1 ? Integer.parseInt(args[1]) : 8080;
 
-        InetAddress address = InetAddress.getByName(host); // 获取地址
+        InetAddress address = InetAddress.getByName(host);
 
         try (DatagramSocket socket = new DatagramSocket();
              BufferedReader reader = new BufferedReader(
@@ -18,13 +18,13 @@ public class UDPClient {
 
             String message;
 
-            while ((message = reader.readLine()) != null) { // 读取输入
-                byte[] data = message.getBytes(StandardCharsets.UTF_8); // 转换字节
+            while ((message = reader.readLine()) != null) {
+                byte[] data = message.getBytes(StandardCharsets.UTF_8);
 
                 DatagramPacket packet =
                         new DatagramPacket(data, data.length, address, port);
 
-                socket.send(packet); // 发送消息
+                socket.send(packet);
             }
         }
     }
