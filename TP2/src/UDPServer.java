@@ -6,7 +6,6 @@ public class UDPServer {
 
     private int port;
     private boolean running = false;
-    private int buffersize;
 
     // Constructor with port
     public UDPServer(int port) {
@@ -15,8 +14,9 @@ public class UDPServer {
 
     // Default constructor
     public UDPServer() {
-        this(8080);
+        this.port = 8080;
     }
+
 
     // Start server
     public void launch() {
@@ -25,16 +25,32 @@ public class UDPServer {
             System.out.println(this);
 
             while (true) {
-                byte[] buffer = new byte[1024];
 
-                DatagramPacket packet =
-                        new DatagramPacket(buffer, buffer.length);
+                byte[] tempBuffer = new byte[65507];
+
+                DatagramPacket packet = new DatagramPacket(tempBuffer, tempBuffer.length);
 
                 socket.receive(packet);
 
-                String msg = new String(packet.getData(), 0, packet.getLength(), StandardCharsets.UTF_8);
+                int size = packet.getLength();
 
-                System.out.println(packet.getAddress() + ":" + packet.getPort() + " -> " + msg);
+                byte[] buffer;
+
+                if (size <= 64) {
+                    buffer = new byte[64];
+                }
+                else if (size <= 2048) {
+                    buffer = new byte[2048];
+                }
+                else {
+                    buffer = new byte[65507];
+                }
+
+                System.arraycopy(tempBuffer, 0, buffer, 0, size);
+                String msg = new String(buffer, 0, size, StandardCharsets.UTF_8);
+                System.out.println("Message size: " + size);
+                System.out.println("Selected buffer: " + buffer.length);
+                System.out.println(msg);
             }
 
         } catch (Exception e) {
@@ -44,14 +60,14 @@ public class UDPServer {
         }
     }
 
-    // Display server information
+
     @Override
     public String toString() {
         return "UDPServer: port=" + port +
                 ", running=" + running;
     }
 
-    // Main method
+
     public static void main(String[] args) {
         UDPServer server;
 
