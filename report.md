@@ -173,7 +173,7 @@ The change in the code is the following one, before we just set up a buffer of s
 ### Step 6
 
 We tested what we did and we see that, when the size of the transmitted data is larger than the size of the buffer, our code save only the maximum size and discard the remaining part.
-![Schéma UDP](..Images/Sending_Oversize_Paquet_Server_View.png)
+![Schéma UDP](/Images/Sending_Oversize_Paquet_Server_View.png)
 
 ### Step 7
 
