@@ -178,14 +178,17 @@ We had some issue to understand the question. We thought that we have to buid a 
 
 ### Step 6
 
-In this part, 
+In this part, we test our server with several size of packets. We notice the server use effectively the authorized size in order to save the date in the buffer. 
+However, we also notice the last packet is not accepted by the server because the size of the packet is greater than the allowed buffer. 
+
 ![Step6_Beffet_Several_Size.png](Images/Step6_Beffet_Several_Size.png)
 
 ### Step 7
+With Wireshark we observe the packet crossing from the client to the server. We see the packets have a lenght that is greater than the one we set up. Indeed, even if we did not do it explicitly, when the packet is sent, a header is added in order to route is path. 
 
-The change in the code is the following one, before 
+![Step7_Packet_With_Wireshark.png](Images/Step7_Packet_With_Wireshark.png)
 
-
+We did not have the picture in the case of using two devices but here is what is logic. Rather than having 1 packet (we are in this case because we are working with the localhost address), we would have many packet of 1400 bytes because the network natively decompose a packet into many packets of this size. 
 
 
 
