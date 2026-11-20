@@ -1,9 +1,6 @@
 import java.net.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 public class UDPClient {
 
     public static void main(String[] args) throws Exception {
