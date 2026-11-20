@@ -189,13 +189,9 @@ In this part, we tested how UDP works without a connection. We used Java and Wir
 
 ### Step 9(a) — Sending Messages Before Starting the Server
 
-First, we started `UDPClient.java` without running the UDP server.
+First, we started `UDPClient.java` without running the UDP server. We sent the following message: `Hello before server starts`
 
-We sent the following message: `Hello before server starts`
-
-Then, we started `UDPServer.java` on port 8080.
-
-The server did not receive the first message.
+Then, we started `UDPServer.java` on port 8080. The server did not receive the first message.
 
 After that, we sent another message: `Hello after server starts`
 
@@ -279,7 +275,5 @@ When a UDP client stops, the server does not know directly. With TCP, the server
 
 #### (b) Why is UDP used for DNS, video streaming, and online games?
 
-UDP is used because it has low cost and does not need to establish a connection.
-
-For DNS, UDP is useful for small and fast queries. For real-time video streaming, low delay is important, we should consider our video or game keep going as the first priority rather than make sure each packet must be corrct. In this case, we can afford to lose some packets during our transmission, and in udp some lost packets can be ignored because new data is sent frequently.
+UDP is used because it has low cost and does not need to establish a connection. For DNS, UDP is useful for small and fast queries. For real-time video streaming, low delay is important, we should consider our video or game keep going as the first priority rather than make sure each packet must be corrct. In this case, we can afford to lose some packets during our transmission, and in udp some lost packets can be ignored because new data is sent frequently.
 
