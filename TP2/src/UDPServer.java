@@ -7,6 +7,7 @@ public class UDPServer {
     private boolean running = false;
     private int bufferSize;
 
+    // The two followings methods are the constructors of the UDPserver
     public UDPServer(int port, int bufferSize) {
         this.port = port;
         this.bufferSize = bufferSize;
@@ -17,7 +18,7 @@ public class UDPServer {
         this.bufferSize = bufferSize;
     }
 
-
+    // We launch the serveur. It listen on a specific port the message
     public void launch() {
 
         try (DatagramSocket socket = new DatagramSocket(port)) {
@@ -29,15 +30,15 @@ public class UDPServer {
             byte[] hugeBuffer = new byte[65507];
 
             while (running) {
-
+                // We listen and when a packet arrive we save it
                 DatagramPacket packet = new DatagramPacket(hugeBuffer, hugeBuffer.length);
 
                 socket.receive(packet);
 
                 int size = packet.getLength();
 
+                // In this part, we set up the choice of the size of the buffer
                 byte[] buffer2;
-
                 if (size <= 64) {
                     buffer2 = smallBuffer;
                 }

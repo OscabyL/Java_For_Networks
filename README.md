@@ -508,3 +508,18 @@ c) Try with receivers on other machines of the room. If they do not receive the 
 
 The main reason is because of the firewall at ENSEA that, apparently do not allows us to send message over the network. 
 
+
+### Step 19
+
+a. Multicast vs. Unicast
+
+With unicast, the sender must transmit 20 separate datagrams to reach 20 receivers, whereas multicast only requires one datagram sent to the group address. Multicast therefore reduces bandwidth consumption and improves network efficiency by limiting unnecessary traffic duplication.
+
+b. Limitations of Broadcast
+
+Broadcast sends data to every host on the local network, even those that do not need it. This generates unnecessary traffic and consumes network resources. Moreover, broadcast is generally limited to the local network, while multicast can reach different networks if multicast routing is supported.
+
+c. UDP vs. TCP
+
+UDP is a connectionless protocol, allowing datagrams to be sent to multiple receivers without establishing individual connections. In contrast, TCP requires a dedicated connection between two endpoints to ensure reliable communication through acknowledgements and retransmissions. Therefore, TCP only supports unicast, while UDP supports both multicast and broadcast.
+

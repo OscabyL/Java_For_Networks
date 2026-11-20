@@ -5,14 +5,15 @@ public class UDPClient {
 
     public static void main(String[] args) throws Exception {
 
-        String host = args.length > 0 ? args[0] : "localhost";
+        // We set up the settings of the CLient (where it will send the message)
+        String host = "localhost";
+
         int port = 8888;
 
-        InetAddress address = InetAddress.getByName(host);
+        InetAddress address = InetAddress.getByName("255.255.255.255");
 
         try (DatagramSocket socket = new DatagramSocket();
-             BufferedReader reader = new BufferedReader(
-                     new InputStreamReader(System.in, StandardCharsets.UTF_8))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8))) {
 
             String message;
 
@@ -29,9 +30,12 @@ public class UDPClient {
 
 
             while ((message = reader.readLine()) != null) {
+
+                //The client listen the user to write a message and when we enter, we send the message over the
                 byte[] data = message.getBytes(StandardCharsets.UTF_8);
 
                 DatagramPacket packet = new DatagramPacket(data, data.length, address, port);
+                socket.setBroadcast(true);
 
                 socket.send(packet);
             }
