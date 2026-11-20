@@ -390,6 +390,8 @@ This shows that all packets were received successfully during our localhost test
 We also tried to test UDP communication between two computers, one using Windows and the other using Linux.
 
 First, we connected both computers to the school network. However, the server did not receive any packets.
+<img width="275" height="171" alt="image" src="https://github.com/user-attachments/assets/ad2d20e3-3364-47a6-9846-ed7e71ba8a02" />
+
 
 Then, we connected both computers to the same smartphone hotspot. We sent 10000 packets, but the server only counted one packet.
 
