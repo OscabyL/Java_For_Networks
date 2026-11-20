@@ -190,6 +190,16 @@ With Wireshark we observe the packet crossing from the client to the server. We 
 
 We did not have the picture in the case of using two devices but here is what is logic. Rather than having 1 packet (we are in this case because we are working with the localhost address), we would have many packet of 1400 bytes because the network natively decompose a packet into many packets of this size. 
 
+### Step 8 
+
+a. Why is the size of the receive buffer chosen by the receiver and not by the sender?
+
+The receiver manages its own memory and decides how much space to allocate for incoming data. The sender cannot control the receiver's resources. If the buffer is too small, the datagram may be truncated.
+
+b. Why is it a bad idea to send datagrams larger than about 1,400 bytes on a real network, even if UDP accepts up to 65,507 bytes?
+
+In the case of using large packets, if even one fragment is lost, the loss will have a huge impact at the reception. Thus, keeping datagrams of about 1,400 bytes is generally safer and more efficient.
+
 
 
 ## Part 3 — Connectionless Communication
