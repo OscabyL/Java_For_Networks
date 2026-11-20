@@ -168,13 +168,32 @@ One important thing is that UDP does not establish a connection before sending d
 ### Step 5 
 
 We changed the size of the buffer of the receiver. We made it possible to take three sizes : 64, 2048 and 65507.
-The change in the code is the following one, before we just set up a buffer of size : 1024. Now, we get the data and then we calculate the length and we attribute of the 3 sizes. 
+The change in the code is the following one, after receiving in the largest buffer that is possible, we measure the effective size of the packet and then we attribute a buffer with a relevant size.
+
+![Step_5_64_Byte_recpetion.png](Images/Step_5_64_Byte_recpetion.png)
+
+As we can see, when we sent a packet of 64 bytes, we are able to retreive all the 64 bytes. 
+
+We had some issue to understand the question. We thought that we have to buid a code that would be able to check the size of the received packet before receiving it. I made some research and it is not possible in a simple way. What I found is that we call to use a system call : a special function in linux that will reach the information about the size of a datagram received at the kernel level. 
 
 ### Step 6
 
-We tested what we did and we see that, when the size of the transmitted data is larger than the size of the buffer, our code save only the maximum size and discard the remaining part.
-![Schéma UDP](/Images/Sending_Oversize_Paquet_Server_View.png)
+In this part, 
+![Step6_Beffet_Several_Size.png](Images/Step6_Beffet_Several_Size.png)
 
 ### Step 7
 
 The change in the code is the following one, before 
+
+
+
+### Step 8 
+
+a. Why is the size of the receive buffer chosen by the receiver and not by the sender?
+
+The main reason is because it is the responsabily to the receiver to allocte the memory space in order to save the content sent by the sender. 
+
+b. Why is it a bad idea to send datagrams larger than about 1 400 bytes on a real network, even if UDP accepts up to 65 507 bytes?
+
+It is true that UDP allow up to 65 507 bytes, however, the physical path of a packet can cross parts where there is some error and then the packet is corrupted. Sending one byte by one byte is really not efficient and sending a lot of bytes is really painful when there is an error and must be send again. 1400 bytes is compromise between efficiency and accuracy. 
+Futhermore, in some networks, it is possible to find packets that are bigger than 1400 bytes because the path of a packet is more sure. 

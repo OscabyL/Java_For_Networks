@@ -1,4 +1,4 @@
-
+import java.util.Arrays;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 
@@ -6,54 +6,58 @@ public class UDPServer {
 
     private int port;
     private boolean running = false;
+    private int bufferSize;
 
-    // Constructor with port
-    public UDPServer(int port) {
+    public UDPServer(int port, int bufferSize) {
         this.port = port;
+        this.bufferSize = bufferSize;
     }
 
-    // Default constructor
-    public UDPServer() {
+    public UDPServer(int bufferSize) {
         this.port = 8080;
+        this.bufferSize = bufferSize;
     }
 
 
-    // Start server
     public void launch() {
+
         try (DatagramSocket socket = new DatagramSocket(port)) {
+
             running = true;
-            System.out.println(this);
 
-            while (true) {
+            byte[] smallBuffer = new byte[64];
+            byte[] largeBuffer = new byte[2048];
+            byte[] hugeBuffer = new byte[65507];
 
-                byte[] tempBuffer = new byte[65507];
+            while (running) {
 
-                DatagramPacket packet = new DatagramPacket(tempBuffer, tempBuffer.length);
+                DatagramPacket packet = new DatagramPacket(hugeBuffer, hugeBuffer.length);
 
                 socket.receive(packet);
 
                 int size = packet.getLength();
 
-                byte[] buffer;
+                byte[] buffer2;
 
                 if (size <= 64) {
-                    buffer = new byte[64];
+                    buffer2 = smallBuffer;
                 }
                 else if (size <= 2048) {
-                    buffer = new byte[2048];
-                }
-                else if(size <=65507){
-                    buffer = new byte[65507];
+                    buffer2 = largeBuffer;
                 }
                 else {
-                    throw new IllegalArgumentException("Message too large");
+                    buffer2 = hugeBuffer;
                 }
 
+                if (buffer2 != hugeBuffer) {
+                    System.arraycopy(hugeBuffer, 0, buffer2, 0, size);
+                }
 
-                System.arraycopy(tempBuffer, 0, buffer, 0, size);
-                String msg = new String(buffer, 0, size, StandardCharsets.UTF_8);
-                System.out.println("Message size: " + size);
-                System.out.println("Selected buffer: " + buffer.length);
+                System.out.println("Buffer size: " + buffer2.length);
+                System.out.println("Received bytes: " + size);
+
+                String msg = new String(buffer2, 0, size, StandardCharsets.UTF_8);
+
                 System.out.println(msg);
             }
 
@@ -67,20 +71,17 @@ public class UDPServer {
 
     @Override
     public String toString() {
-        return "UDPServer: port=" + port +
-                ", running=" + running;
+        return "UDPServer: port=" + port + ", running=" + running;
     }
 
 
     public static void main(String[] args) {
-        UDPServer server;
 
-        if (args.length > 0) {
-            server = new UDPServer(Integer.parseInt(args[0]));
-        } else {
-            server = new UDPServer();
-        }
+        int port = 8080;
+        int bufferSize = 65507;
+
+        UDPServer server = new UDPServer(port, bufferSize);
 
         server.launch();
     }
-}
+    }
