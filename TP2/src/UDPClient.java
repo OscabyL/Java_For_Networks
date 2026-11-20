@@ -6,7 +6,7 @@ public class UDPClient {
     public static void main(String[] args) throws Exception {
 
         String host = args.length > 0 ? args[0] : "localhost";
-        int port = args.length > 1 ? Integer.parseInt(args[1]) : 8080;
+        int port = 8888;
 
         InetAddress address = InetAddress.getByName(host);
 
@@ -17,13 +17,15 @@ public class UDPClient {
             String message;
 
             //Test zone for try the buffer size management
-            int[] listSizeByte = {1000, 10000, 65507, 65508};
-
+            //int[] listSizeByte = {1000, 10000, 65507};
+/*
             for (int i = 0; i < listSizeByte.length; i++){
                 byte[] datatest = "A".repeat(listSizeByte[i]).getBytes(StandardCharsets.UTF_8);
                 DatagramPacket packet1 = new DatagramPacket(datatest, datatest.length, address, port);
                 socket.send(packet1);
             }
+
+ */
 
 
             while ((message = reader.readLine()) != null) {
