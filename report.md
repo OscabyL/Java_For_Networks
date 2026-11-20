@@ -473,20 +473,7 @@ In our experiment, we used a timeout of 2000 ms. This allowed us to observe the 
 
 #### (b) Which mechanisms of TCP have you re-implemented, and which ones are still missing?
 
-We implemented some TCP reliability mechanisms using UDP.
+We implemented some TCP reliability mechanisms using UDP. And we added sequence numbers to identify messages, ACKs to confirm received messages, and timeout-based retransmission when no ACK arrives. We also added duplicate detection.
 
-We added sequence numbers to identify messages, ACKs to confirm received messages, and timeout-based retransmission when no ACK arrives. We also added duplicate detection.
+However, our program does not support connection establishment, flow control, congestion control, sliding windows, or in-order delivery. Therefore, our UDP program is more reliable than basic UDP, but it does not provide all the functions of TCP.
 
-However, our program does not support connection establishment, flow control, congestion control, sliding windows, or in-order delivery.
-
-Therefore, our UDP program is more reliable than basic UDP, but it does not provide all the functions of TCP.
-
-### Part 4 — Conclusion
-
-In this part, we learned how to improve UDP reliability using sequence numbers, ACKs, and retransmission.
-
-We also tested UDP packet loss under different conditions. In our localhost tests, we observed 0% packet loss without server delay and 83% packet loss with a 5 ms server delay and a small receive buffer.
-
-Finally, we simulated packet loss and ACK loss. We found that retransmission can help recover messages, but duplicate detection is also necessary.
-
-These experiments helped us understand some important differences between UDP and TCP.
