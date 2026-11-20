@@ -1,7 +1,8 @@
-
 import java.net.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UDPClient {
 
@@ -19,26 +20,14 @@ public class UDPClient {
             String message;
 
             //Test zone for try the buffer size management
+            int[] listSizeByte = {1000, 10000, 65507, 65508};
 
-            byte[] datatest = "test".getBytes(StandardCharsets.UTF_8);
-            DatagramPacket packet1 = new DatagramPacket(datatest, datatest.length, address, port);
-            socket.send(packet1);
+            for (int i = 0; i < listSizeByte.length; i++){
+                byte[] datatest = "A".repeat(listSizeByte[i]).getBytes(StandardCharsets.UTF_8);
+                DatagramPacket packet1 = new DatagramPacket(datatest, datatest.length, address, port);
+                socket.send(packet1);
+            }
 
-            byte[] datatest2 = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttest".getBytes(StandardCharsets.UTF_8);
-            DatagramPacket packet2 = new DatagramPacket(datatest2, datatest2.length, address, port);
-            socket.send(packet2);
-
-            byte[] datatest3 = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest".getBytes(StandardCharsets.UTF_8);
-            DatagramPacket packet3 = new DatagramPacket(datatest3, datatest3.length, address, port);
-            socket.send(packet3);
-
-            byte[] datatest4 = "A".repeat(65507).getBytes(StandardCharsets.UTF_8);
-            DatagramPacket packet4 = new DatagramPacket(datatest4, datatest4.length, address, port);
-            socket.send(packet4);
-
-            byte[] datatest5 = "A".repeat(65507).getBytes(StandardCharsets.UTF_8);
-            DatagramPacket packet5 = new DatagramPacket(datatest5, datatest5.length, address, port);
-            socket.send(packet5);
 
             while ((message = reader.readLine()) != null) {
                 byte[] data = message.getBytes(StandardCharsets.UTF_8);
