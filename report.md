@@ -296,3 +296,197 @@ When a UDP client stops, the server does not know directly. With TCP, the server
 
 UDP is used because it has low cost and does not need to establish a connection. For DNS, UDP is useful for small and fast queries. For real-time video streaming, low delay is important, we should consider our video or game keep going as the first priority rather than make sure each packet must be corrct. In this case, we can afford to lose some packets during our transmission, and in udp some lost packets can be ignored because new data is sent frequently.
 
+
+
+## Part 4 — Reliability over UDP
+
+In this part, we tested how to make UDP communication more reliable. We added sequence numbers, ACK messages, and retransmission to our Java programs. We also tested packet loss with different server settings.
+
+### Step 11 — Sequence Numbers
+
+First, we created two new Java classes called `UDPClientP4.java` and `UDPServerP4.java`.
+
+We added a sequence number to each message sent by the client. The first message starts with 0, and the number increases by 1 for each new message.
+
+We tested the client by sending three messages:
+
+```text
+0:Hello
+1:How are you
+2:Good morning
+```
+
+The server received all three messages in the correct order.
+
+![Step 11 - Sequence Numbers](Images/Part4/Step11_Sequence.png)
+
+Then, we tested what happens when the messages arrive in the wrong order. We used Ncat to send messages with the sequence numbers 0, 2, and 1.
+
+The server detected that sequence number 1 was missing when it received number 2. When number 1 arrived later, the server detected an out-of-order message.
+
+![Step 11 - Missing Sequence](Images/Part4/Step11_Missing.png)
+
+This shows that sequence numbers can help the server detect missing or out-of-order messages. However, sequence numbers alone cannot recover lost messages.
+
+### Step 12 — Acknowledgments and Retransmission
+
+In this step, we added ACK messages to our UDP communication.
+
+When the server receives a message, it sends an ACK back to the client. For example, if the server receives `0:Hello`, it replies with `ACK:0`.
+
+We set the timeout to 2000 ms (2 seconds). If the client does not receive the ACK in time, it sends the same message again. The maximum number of attempts is 3.
+
+First, we tested normal communication. The client sent messages, and the server returned the correct ACKs.
+
+![Step 12 - Client ACK](Images/Part4/Step12_ACK_Client.png)
+
+![Step 12 - Server ACK](Images/Part4/Step12_ACK_Server.png)
+
+Then, we tested retransmission. We started the original `UDPServer.java`, which receives messages but does not send ACKs.
+
+The client sent a message and waited for an ACK. After 2 seconds, it did not receive any response, so it sent the message again.
+
+The client tried three times and finally displayed an error.
+
+![Step 12 - Timeout and Retransmission](Images/Part4/Step12_Timeout.png)
+
+This test shows that our client can automatically retransmit messages when no ACK is received. However, receiving no ACK does not always mean the original message was lost.
+
+### Step 13 — Measuring Packet Loss
+
+In this step, we created `UDPBurstClient.java` and `UDPBurstServer.java` to measure UDP packet loss.
+
+The client sends numbered UDP packets as fast as possible without waiting for ACKs. The server counts how many different packets it receives and calculates the loss rate.
+
+We used the following formula:
+
+**Loss rate = (Sent - Received) / Sent × 100%**
+
+#### Step 13(a) — Packet Loss on Localhost
+
+First, we tested UDP communication on the same computer using `127.0.0.1`.
+
+We sent 10000 UDP packets with no additional server delay.
+
+The server received all 10000 packets, so the packet loss rate was 0%.
+
+![Step 13 - Localhost Test](Images/Part4/Step13_Localhost.png)
+
+We also tested 100 packets with a receive buffer of 4096 bytes and no server delay.
+
+The results were:
+
+- Sent: 100
+- Received: 100
+- Lost: 0
+- Loss rate: 0.00%
+
+![Step 13a - Packet Loss 0%](Images/Part4/Step13a_PacketLoss_0percent.png)
+
+This shows that all packets were received successfully during our localhost tests. However, UDP does not guarantee that packets will always arrive.
+
+#### Step 13(b) — Packet Loss Between Two Computers
+
+We also tried to test UDP communication between two computers, one using Windows and the other using Linux.
+
+First, we connected both computers to the school network. However, the server did not receive any packets.
+
+Then, we connected both computers to the same smartphone hotspot. We sent 10000 packets, but the server only counted one packet.
+
+We think this problem may be related to network settings, firewall restrictions, or the high sending speed. We have not confirmed the exact reason yet.
+
+We will test this part again later, so we do not consider this result as a confirmed measurement of normal network packet loss.
+
+#### Step 13(c) — Packet Loss with Server Delay
+
+In this step, we tested how server processing speed can affect UDP packet loss.
+
+First, we sent 10000 packets on localhost with a server delay of 2 ms. The server took more time to finish, but it still received all packets.
+
+![Step 13 - Server Delay Test](Images/Part4/Step13_Delay.png)
+
+Then, we changed the test settings to make packet loss easier to observe. We used 100 packets, a receive buffer of 4096 bytes, and a server delay of 5 ms.
+
+This time, the server received only 17 packets.
+
+The results were:
+
+- Sent: 100
+- Received: 17
+- Lost: 83
+- Loss rate: 83.00%
+
+![Step 13c - Packet Loss 83%](Images/Part4/Step13c_PacketLoss_83percent.png)
+
+We compared the two tests with 100 packets and the same receive buffer:
+
+| Parameter | Step 13(a) | Step 13(c) |
+|---|---|---|
+| Sent packets | 100 | 100 |
+| Receive buffer | 4096 bytes | 4096 bytes |
+| Server delay | 0 ms | 5 ms |
+| Received packets | 100 | 17 |
+| Lost packets | 0 | 83 |
+| Loss rate | 0.00% | 83.00% |
+
+We found that the packet loss rate increased when the server delay was added.
+
+This may happen because the client sends packets faster than the server can process them. When the operating system's UDP receive buffer becomes full, new packets may be dropped.
+
+This experiment shows that UDP packet loss can happen even on the same computer.
+
+### Step 14 — Simulated Packet Loss
+
+In this step, we modified `UDPServerP4.java` to simulate packet loss.
+
+We used `Math.random()` to randomly drop about 20% of the received UDP messages. When a packet was dropped, the server did not process it or send an ACK.
+
+If the client did not receive an ACK within 2 seconds, it automatically sent the same message again.
+
+We sent several messages and observed the timeout and retransmission process.
+
+![Step 14 - Retransmission](Images/Part4/Step14_Retransmission.png)
+
+We also simulated ACK loss. Sometimes the server received a message correctly but did not send its ACK.
+
+In this case, the client sent the same message again because it did not receive the confirmation.
+
+The server used the client's address, port, and sequence number to detect duplicate messages.
+
+![Step 14 - Duplicate Detection](Images/Part4/Step14_Duplicate.png)
+
+This shows that retransmission can help recover from packet loss. However, when an ACK is lost, the server may receive the same message more than once.
+
+Therefore, duplicate detection is important. The server should not process the same message twice, but it should still send an ACK for a duplicate.
+
+### Step 15 — Questions
+
+#### (a) How should the timeout of Step 12 be chosen? What happens if it is too short or too long?
+
+The timeout should be chosen based on the network delay (RTT).
+
+If the timeout is too short, the client may resend messages too early. This can cause duplicate packets and unnecessary network traffic.
+
+If the timeout is too long, the client waits too much time before retransmitting a lost message. This makes communication slower.
+
+In our experiment, we used a timeout of 2000 ms. This allowed us to observe the retransmission process.
+
+#### (b) Which mechanisms of TCP have you re-implemented, and which ones are still missing?
+
+We implemented some TCP reliability mechanisms using UDP.
+
+We added sequence numbers to identify messages, ACKs to confirm received messages, and timeout-based retransmission when no ACK arrives. We also added duplicate detection.
+
+However, our program does not support connection establishment, flow control, congestion control, sliding windows, or in-order delivery.
+
+Therefore, our UDP program is more reliable than basic UDP, but it does not provide all the functions of TCP.
+
+### Part 4 — Conclusion
+
+In this part, we learned how to improve UDP reliability using sequence numbers, ACKs, and retransmission.
+
+We also tested UDP packet loss under different conditions. In our localhost tests, we observed 0% packet loss without server delay and 83% packet loss with a 5 ms server delay and a small receive buffer.
+
+Finally, we simulated packet loss and ACK loss. We found that retransmission can help recover messages, but duplicate detection is also necessary.
+
+These experiments helped us understand some important differences between UDP and TCP.
