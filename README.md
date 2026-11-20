@@ -483,9 +483,6 @@ However, our program does not support connection establishment, flow control, co
 
 ## Part 5
 
-### Step 16 
-
-
 ### Step 17 
 
 a) Start several receivers on your own machine, in different terminals: do they all receive each message? (Several programs can listen on the same multicast port, which is not possible with the UDPServer of
@@ -496,14 +493,18 @@ We started several terminals that all listening. As noticed in the following ima
 ![Step17_Reception1.png](Images/Part5/Step17_Reception1.png)
 ![Step17_Reception2.png](Images/Part5/Step17_Reception2.png)
 
-The reaons is taht 
+MulticastSocket allows several receivers to listen on port 8888 because it enables SO_REUSEADDR by default. Each receiver joins the same multicast, allowing all of them to receive the same datagrams.
+
+To compare, our UDPServer uses a standard DatagramSocket, which does not enable port sharing by default. Therefore, only one UDPServer can normally bind to the same port at a time.
 
 b) Make one receiver leave the group (leaveGroup) and check that it stops receiving.
 
 We also set up a counter that force one the receiver to leave after receiving 3 messages. It actually do not receive the message after it leave the group. 
 ![Step17_Reception_Only2.png](Images/Part5/Step17_Reception_Only2.png)
 
-NB : the reason it does not show the "hello 3" is because it test if the message is the 3rd one and leave the group before printing the message. 
+NB : the reason it does not show the "hello 3" is because it test if the message is the 3rd one and leave the group before printing the message.
 
 c) Try with receivers on other machines of the room. If they do not receive the messages, it is not necessarily a bug in your code: list the possible reasons (firewall, network equipment filtering multicast, machines on different networks, wrong interface) and check the ones you can.
+
+The main reason is because of the firewall at ENSEA that, apparently do not allows us to send message over the network. 
 
