@@ -191,17 +191,13 @@ In this part, we tested how UDP works without a connection. We used Java and Wir
 
 First, we started `UDPClient.java` without running the UDP server.
 
-We sent the following message:
-
-`Hello before server starts`
+We sent the following message: `Hello before server starts`
 
 Then, we started `UDPServer.java` on port 8080.
 
 The server did not receive the first message.
 
-After that, we sent another message:
-
-`Hello after server starts`
+After that, we sent another message: `Hello after server starts`
 
 ![Step 9a - UDP Client](Images/Part3/Step9a_Client.png)
 
@@ -213,9 +209,7 @@ This shows that UDP can send messages without establishing a connection. However
 
 ### Step 9(b) — Sending Messages to Unused Ports
 
-In this step, we sent UDP messages to a port where no server was running.
-
-We used `127.0.0.1` and port `9000` in the UDPClient configuration.
+In this step, we sent UDP messages to a port where no server was running. We used `127.0.0.1` and port `9000` in the UDPClient configuration.
 
 Then, we opened Wireshark and selected the loopback interface.
 
@@ -245,13 +239,11 @@ We checked the ICMP packet and found:
 
 This means that the UDP message reached the destination computer, but no application was listening on port 9000.
 
-We learned that UDP does not check if the server is running before sending messages. The operating system can send an ICMP error when the destination port is not available.
+In this part, we test port is 9001, and 9002 as well, They are all showing the same result as port 9000..  We learned that UDP does not check if the server is running before sending messages. The operating system can send an ICMP error when the destination port is not available.
 
 ### Step 9(c) — Starting and Stopping the UDP Client
 
-In this step, we kept the UDP server running on port 8080.
-
-Then, we started and stopped the UDP client three times.
+In this step, we kept the UDP server running on port 8080. Then, we started and stopped the UDP client three times.
 
 Each time, we sent a different message:
 
@@ -273,43 +265,21 @@ We observed the following results:
 
 ![Step 9c - Different Client Ports](Images/Part3/Step9c_ClientPorts.png)
 
-The IP address was the same because we used the same computer.
-
-However, the source port changed each time we restarted the client.
-
-Also, the server did not show any message when the client stopped.
-
-This shows that UDP does not keep a connection between the client and server.
+The IP address was the same because we used the same computer. However, the source port changed each time we restarted the client. And the server did show no alerts when we closed our client during the test. This shows that UDP does not keep a connection between the client and server.
 
 ### Step 10 — Questions
 
 #### (a) Compare UDP with TCP in Step 9(a) and Step 9(c).
 
-With UDP, the client can send messages even if the server is not running. However, the messages may be lost.
+As for UDP, the client can send messages even if the server is not running. However, the messages may be lost.
 
-With TCP, the client must establish a connection first. If the server is not running, the connection usually fails.
+As for TCP, the client must establish a connection first. If the server is not running, the connection usually fails.
 
-When a UDP client stops, the server does not know directly.
-
-With TCP, the server can detect when the connection is closed.
+When a UDP client stops, the server does not know directly. With TCP, the server can detect when the connection is closed.
 
 #### (b) Why is UDP used for DNS, video streaming, and online games?
 
-UDP is used because it has low overhead and does not need to establish a connection.
+UDP is used because it has low cost and does not need to establish a connection.
 
-For DNS, UDP is useful for small and fast queries.
-
-For real-time video streaming, low delay is important. Sometimes it is better to continue playing than to wait for lost packets.
-
-For online games, fast communication is important. Some lost packets can be ignored because new data is sent frequently.
-
-### Part 3 — Conclusion
-
-In this part, we learned that UDP is a connectionless protocol.
-
-The client can send messages without establishing a connection with the server.
-
-We also observed ICMP Port Unreachable messages using Wireshark.
-
-Finally, we found that the source port may change when a client restarts, and the UDP server does not directly detect when a client stops.
+For DNS, UDP is useful for small and fast queries. For real-time video streaming, low delay is important, we should consider our video or game keep going as the first priority rather than make sure each packet must be corrct. In this case, we can afford to lose some packets during our transmission, and in udp some lost packets can be ignored because new data is sent frequently.
 
